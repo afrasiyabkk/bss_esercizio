@@ -1,7 +1,7 @@
 <template>
     <div>
         <main-layout v-if="page == 'Home'">
-            <div slot="body" class="main_div">Questa è la home page</div>
+            <div slot="body" class="main_div">{{ $t("Home_Page") }}</div>
         </main-layout>
     </div>
 </template>
