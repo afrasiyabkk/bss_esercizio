@@ -1,7 +1,7 @@
 <template>
     <div>
         <main-layout v-if="page == 'Contatti'">
-            <div slot="body" class="main_div">Questa è la pagina dei contatti</div>
+            <div slot="body" class="main_div">{{ $t("Contatti_Page") }}</div>
         </main-layout>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-app>
-            <v-container-fluid class="grey lighten-5">
+            <div class="grey lighten-5">
                 <v-row no-gutters>
                     <v-col
                         cols="12"
@@ -34,15 +34,15 @@
                                 <center>
                                     <br>
                                     <button @click="homeClicked" :class="{active: home, inactive: !home}" class="link">
-                                        <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-home</v-icon> Home</v-list-item-title>
+                                        <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-home</v-icon> {{ $t("Home_Button") }}</v-list-item-title>
                                     </button>
                                     <br><br>
                                     <button @click="chisiamoClicked" :class="{active: chisiamo, inactive: !chisiamo}" class="link">
-                                        <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-information-outline</v-icon> Chisiamo</v-list-item-title>
+                                        <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-information-outline</v-icon> {{ $t("Chisiamo_Button") }}</v-list-item-title>
                                     </button>
                                     <br><br>
                                     <button @click="contattiClicked" :class="{active: contatti, inactive: !contatti}" class="link">
-                                        <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-phone</v-icon> Contatti</v-list-item-title>
+                                        <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-phone</v-icon> {{ $t("Contatti_Button") }}</v-list-item-title>
                                     </button>
                                     <br><br><br>
                                 </center>
@@ -63,15 +63,15 @@
                         <center>
                             <br><br>
                             <button @click="homeClicked" :class="{active: home, inactive: !home}" class="link">
-                                <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-home</v-icon> Home</v-list-item-title>
+                                <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-home</v-icon> {{ $t("Home_Button") }}</v-list-item-title>
                             </button>
                             <br><br>
                             <button @click="chisiamoClicked" :class="{active: chisiamo, inactive: !chisiamo}" class="link">
-                                <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-information-outline</v-icon> Chisiamo</v-list-item-title>
+                                <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-information-outline</v-icon> {{ $t("Chisiamo_Button") }}</v-list-item-title>
                             </button>
                             <br><br>
                             <button @click="contattiClicked" :class="{active: contatti, inactive: !contatti}" class="link">
-                                <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-phone</v-icon> Contatti</v-list-item-title>
+                                <v-list-item-title class="title pt-2 pb-2"><v-icon color="white">mdi-phone</v-icon> {{ $t("Contatti_Button") }}</v-list-item-title>
                             </button>
                         </center>
                         
@@ -85,11 +85,24 @@
                         md="9"
                         class= ""
                     >
-                    
+                        <v-row>
+                            <v-spacer></v-spacer>
+                            <v-spacer></v-spacer>
+                            <v-spacer></v-spacer>
+                            <v-spacer></v-spacer>
+                            <v-col>
+                                <br><br>
+                                <select class="language" v-model="lang" @change="langChange($event)">
+                                    <option value="it">Italiano</option>
+                                    <option value="en">English</option>
+                                    <option value="fr">Francese</option>
+                                </select>
+                            </v-col>
+                        </v-row>
                         <slot name="body"></slot>
                     </v-col>
                 </v-row>
-            </v-container-fluid>
+            </div>
         </v-app>
     </div>
 </template>
@@ -102,7 +115,8 @@ export default {
     },
     data(){
         return{
-            style: "height: 100vh"
+            style: "height: 100vh",
+            lang: localStorage.getItem("lang"),
         }
     },
     computed: {
@@ -136,6 +150,15 @@ export default {
         contattiClicked() {
             this.$store.dispatch('contattiClicked')
         },
+
+        langChange(event){
+            localStorage.setItem("lang", event.target.value)
+            this.lang = localStorage.getItem("lang")
+            window.location.reload()
+        }
+    },
+    created(){
+        this.lang = localStorage.getItem("lang")
     }
 }
 </script>
@@ -160,6 +183,18 @@ export default {
     /* height: 50px; */
     width: 80%;
     color: white;
+}
+
+.language {
+    border: 1px solid green;
+    padding: 10px;
+    text-align: center;
+}
+
+.language:hover{
+    background: green;
+    color: white;
+    cursor: pointer;
 }
 </style>
 
