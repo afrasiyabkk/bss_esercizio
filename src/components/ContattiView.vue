@@ -9,13 +9,16 @@
                     <span v-if="loading">Loading.. Please Wait!</span>
                 </v-btn>
                 <br><br>
-                <ul>
+                <ul v-if="!is_contact_data_error">
                     <li v-for="(d, index) in contact_data" :key="index" class="contact_data">
                         {{d.id}}
                         <br>{{d.title}}
                         <br><br>
                     </li>
                 </ul>
+                <div v-if="is_contact_data_error">
+                    <span class="contact_data" style="color: red">{{ contact_data_error }}</span>
+                </div>
             </div>
         </main-layout>
     </div>
@@ -33,11 +36,16 @@ export default {
             return this.$store.state.page
         },
         loading(){
-            console.log(this.$store.state.loading)
             return this.$store.state.loading
         },
         contact_data(){
             return this.$store.state.contact_data
+        },
+        is_contact_data_error(){
+            return this.$store.state.is_contact_data_error
+        },
+        contact_data_error(){
+            return this.$store.state.contact_data_error
         }
     },
     methods: {

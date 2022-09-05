@@ -11,6 +11,8 @@ export default new Vuex.Store({
     chisiamo: false,
     contatti: false,
     loading: false,
+    is_contact_data_error: false,
+    contact_data_error: "",
     contact_data: []
   },
   getters: {
@@ -39,10 +41,18 @@ export default new Vuex.Store({
 
     contactDataCollectButton: state => {
       state.loading = true
+      state.contact_data = []
+      state.contact_data_error = ""
     },
 
     contactDataCollect: (state, payload) => {
       state.contact_data = payload
+      state.loading = false
+    },
+
+    contactDataCollectError: (state, payload) => {
+      state.is_contact_data_error = true
+      state.contact_data_error = payload
       state.loading = false
     }
   },
@@ -64,8 +74,6 @@ export default new Vuex.Store({
     },
 
     contactDataCollect(context) {
-      // const d = await fetch("https://dummyjson.com/products/2")
-      // const data = await d.json()
       const url = 'https://dummyjson.com/products'
 
       setTimeout(function () {
@@ -73,7 +81,10 @@ export default new Vuex.Store({
         .then(response=>{
           context.commit('contactDataCollect', response.data.products)
         })
-      }, 5000);
+        .catch(error => {
+          context.commit("contactDataCollectError", error)
+        })
+      }, 1000);
     }
   },
   modules: {
