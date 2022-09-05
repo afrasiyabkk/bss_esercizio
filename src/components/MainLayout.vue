@@ -58,7 +58,7 @@
                         sm = "4"
                         md="3"
                         class= "deep-purple darken-3 d-none d-sm-block"
-                        style="height: 100vh"
+                        style="min-height: 100vh"
                     >
                         <center>
                             <br><br>
