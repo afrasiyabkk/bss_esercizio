@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios"
 
 Vue.use(Vuex)
 
@@ -9,6 +10,10 @@ export default new Vuex.Store({
     home: true,
     chisiamo: false,
     contatti: false,
+    loading: false,
+    is_contact_data_error: false,
+    contact_data_error: "",
+    contact_data: []
   },
   getters: {
   },
@@ -33,6 +38,23 @@ export default new Vuex.Store({
       state.chisiamo = false
       state.contatti = true
     },
+
+    contactDataCollectButton: state => {
+      state.loading = true
+      state.contact_data = []
+      state.contact_data_error = ""
+    },
+
+    contactDataCollect: (state, payload) => {
+      state.contact_data = payload
+      state.loading = false
+    },
+
+    contactDataCollectError: (state, payload) => {
+      state.is_contact_data_error = true
+      state.contact_data_error = payload
+      state.loading = false
+    }
   },
   actions: {
     homeClicked: context => {
@@ -46,6 +68,24 @@ export default new Vuex.Store({
     contattiClicked: context => {
       context.commit('contattiClicked')
     },
+
+    contactDataCollectButton: context => {
+      context.commit('contactDataCollectButton')
+    },
+
+    contactDataCollect(context) {
+      const url = 'https://dummyjson.com/products'
+
+      setTimeout(function () {
+        axios.get(url)
+        .then(response=>{
+          context.commit('contactDataCollect', response.data.products)
+        })
+        .catch(error => {
+          context.commit("contactDataCollectError", error)
+        })
+      }, 1000);
+    }
   },
   modules: {
   }
