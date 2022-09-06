@@ -74,10 +74,16 @@ export default new Vuex.Store({
     },
 
     contactDataCollect(context) {
-      const url = 'https://dummyjson.com/products'
+      const url = 'https://dummyjson.com'
+
+      const axiosInstance = axios.create({
+        baseURL: url,
+        headers: {'BSS-AZIENDA': 'Afrasiyab'}
+      })
+
 
       setTimeout(function () {
-        axios.get(url)
+        axiosInstance.get("/products")
         .then(response=>{
           context.commit('contactDataCollect', response.data.products)
         })
